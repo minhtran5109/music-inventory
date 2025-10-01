@@ -1,4 +1,12 @@
-<h1>Artist Detail</h1>
-<p>ID: <%= artist.id %></p>
-<p>Name: <%= artist.name %></p>
-<a href="/artists">Back to Artists</a>
+<!DOCTYPE html>
+<html>
+<head><title><%= title %></title></head>
+<body>
+  <h1><%= artist.name %></h1>
+
+  <p><strong>ID:</strong> <%= artist.artist_id %></p>
+  <p><strong>Country:</strong> <%= artist.country || 'Unknown' %></p>
+
+  <p><a href="/artists">Back to artist list</a></p>
+</body>
+</html>

@@ -1,4 +1,4 @@
-const pool = require('../db/pool');
+const pool = require('./pool');
 
 async function getAllTracks() {
   const { rows } = await pool.query('SELECT * FROM tracks');
@@ -15,10 +15,19 @@ async function getAllArtists() {
   return rows;
 }
 
-//TODO: implement more database queries for records (CRUD operations)
+async function getArtistById(id) {
+  const { rows } = await pool.query('SELECT * FROM artists WHERE artist_id = $1', [id]);
+  return rows[0];
+}
+
+async function insertArtist(name, country) {
+  return await pool.query('INSERT INTO artists (name, country) VALUES ($1, $2) RETURNING *', [name, country]);
+}
 
 module.exports = {
   getAllTracks,
+  searchTracks,
   getAllArtists,
-  searchTracks
+  getArtistById,
+  insertArtist,
 };

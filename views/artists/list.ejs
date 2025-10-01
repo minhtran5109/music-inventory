@@ -1,6 +1,21 @@
-<h1>Artists</h1>
-<ul>
-  <% artists.forEach(artist => { %>
-    <li><a href="/artists/<%= artist %>"><%= artist %></a></li>
-  <% }) %>
-</ul>
+<!DOCTYPE html>
+<html>
+<head><title><%= title %></title></head>
+<body>
+  <h1><%= title %></h1>
+
+  <% if (!artists || artists.length === 0) { %>
+    <p>No artists found.</p>
+  <% } else { %>
+    <ul>
+      <% artists.forEach(artist => { %>
+        <li>
+          <a href="/artists/<%= artist.artist_id %>"><%= artist.name %></a>
+        </li>
+      <% }) %>
+    </ul>
+  <% } %>
+
+  <p><a href="/artists/create">Add a new artist</a></p>
+</body>
+</html>

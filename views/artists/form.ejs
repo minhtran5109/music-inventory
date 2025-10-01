@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head><title><%= title %></title></head>
+  <body>
+    <h1><%= title %></h1>
+    <form action="/artists/create" method="POST">
+      <label>Name: <input type="text" name="name" required></label><br>
+      <label>Country: <input type="text" name="country"></label><br>
+      <button type="submit">Add Artist</button>
+    </form>
+    <p><a href="/artists">Back to Artists</a></p>
+  </body>
+</html>
