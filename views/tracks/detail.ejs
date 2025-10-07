@@ -1,4 +1,29 @@
-<h1>Track Detail</h1>
-<p>ID: <%= track.id %></p>
-<p>Name: <%= track.name %></p>
-<a href="/tracks">Back to Tracks</a>
+<!DOCTYPE html>
+<html>
+<head><title><%= title %></title></head>
+<body>
+  <h1><%= track.title %></h1>
+
+  <p><strong>ID:</strong> <%= track.track_id %></p>
+
+  <% if (artists.length > 0) { %>
+    <p><strong>Artists:</strong>
+      <% artists.forEach((artist, i) => { %>
+        <a href="/artists/<%= artist.artist_id %>"><%= artist.name %></a><%= i < artists.length - 1 ? ', ' : '' %>
+      <% }) %>
+    </p>
+  <% } else { %>
+    <p><strong>Artists:</strong> Unknown</p>
+  <% } %>
+
+  <% if (track.album) { %>
+    <p><strong>Album:</strong> <%= track.album %></p>
+  <% } %>
+
+  <% if (track.duration) { %>
+    <p><strong>Duration:</strong> <%= track.duration %> seconds</p>
+  <% } %>
+
+  <p><a href="/tracks">Back to track list</a></p>
+</body>
+</html>

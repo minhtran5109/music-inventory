@@ -4,7 +4,11 @@ const tracksController = require("../controllers/tracksController");
 const tracksRouter = Router();
 
 tracksRouter.get("/", tracksController.tracksListGet);
-tracksRouter.get("/:id", tracksController.trackDetailGet);
+
 // tracksRouter.post("/create", tracksController.tracksCreatePost);
+// tracksRouter.get("/create", tracksController.tracksCreateGet);
+
+tracksRouter.get("/:id", tracksController.trackDetailGet);
+
 
 module.exports = tracksRouter;

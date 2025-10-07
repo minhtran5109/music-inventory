@@ -1,6 +1,24 @@
-<h1>Tracks</h1>
-<ul>
-  <% tracks.forEach(track => { %>
-    <li><a href="/tracks/<%= track %>"><%= track %></a></li>
-  <% }) %>
-</ul>
+<!DOCTYPE html>
+<html>
+<head><title><%= title %></title></head>
+<body>
+  <h1><%= title %></h1>
+
+  <% if (!tracks || tracks.length === 0) { %>
+    <p>No tracks found.</p>
+  <% } else { %>
+    <ul>
+      <% tracks.forEach(track => { %>
+        <li>
+          <a href="/tracks/<%= track.track_id %>"><%= track.title %></a>
+          <% if (track.artists) { %>
+            — <small><%= track.artists %></small>
+          <% } %>
+        </li>
+      <% }) %>
+    </ul>
+  <% } %>
+
+  <p><a href="/tracks/create">Add a new track</a></p>
+</body>
+</html>

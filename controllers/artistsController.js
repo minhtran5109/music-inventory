@@ -15,7 +15,6 @@ async function artistDetailGet (req, res) {
   if (!artist) {
     return res.status(404).send("Artist not found");
   }
-  console.log("Artist detail: ", artist);
   res.render("artists/detail", { 
     title: "Detail about " + artist.name, 
     artist: artist
