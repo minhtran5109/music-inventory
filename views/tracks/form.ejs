@@ -1,0 +1,25 @@
+<h1>Add New Track</h1>
+<form action="/tracks/create" method="POST">
+  <label>Title:</label>
+  <input type="text" name="title" required><br>
+
+  <label>Duration (seconds):</label>
+  <input type="number" name="duration"><br>
+
+  <label>Album:</label>
+  <select name="album_id">
+    <option value="">-- None (Single) --</option>
+    <% albums.forEach(al => { %>
+      <option value="<%= al.album_id %>"><%= al.title %></option>
+    <% }) %>
+  </select><br>
+
+  <label>Artist:</label>
+  <select name="artist_id" required>
+    <% artists.forEach(a => { %>
+      <option value="<%= a.artist_id %>"><%= a.name %></option>
+    <% }) %>
+  </select><br>
+
+  <button type="submit">Add Track</button>
+</form>

@@ -10,6 +10,16 @@ async function getTrackById(id) {
   return rows[0];
 }
 
+async function insertTrack(title, duration, album_id) {
+  const { rows } = await pool.query(`
+    INSERT INTO tracks (title, duration, album_id)
+    VALUES ($1, $2, $3)
+    RETURNING *
+  `, [title, duration, album_id || null]);
+  const track = rows[0];
+  return track;
+}
+
 async function getAllTracksArtists() {
   const { rows } = await pool.query(`
     SELECT t.track_id, t.title, STRING_AGG(a.name, ', ') AS artists
@@ -22,7 +32,11 @@ async function getAllTracksArtists() {
   return rows;
 }
 
-async function searchTracks(search) {
+async function insertTrackArtist(track_id, artist_id) {
+  await pool.query('INSERT INTO track_artists (track_id, artist_id) VALUES ($1, $2)', [track_id, artist_id]);
+}
+
+async function searchTrack(search) {
   const { rows } = await pool.query('SELECT * FROM tracks WHERE title ILIKE $1', [`%${search}%`]);
   return rows;
 }
@@ -54,7 +68,9 @@ async function getArtistsByTrack(trackId) {
 module.exports = {
   getAllTracks,
   getTrackById,
-  searchTracks,
+  insertTrack,
+  insertTrackArtist,
+  searchTrack,
   getAllTracksArtists,
   getAllArtists,
   getArtistById,

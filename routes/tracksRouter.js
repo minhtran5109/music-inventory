@@ -5,8 +5,8 @@ const tracksRouter = Router();
 
 tracksRouter.get("/", tracksController.tracksListGet);
 
-// tracksRouter.post("/create", tracksController.tracksCreatePost);
-// tracksRouter.get("/create", tracksController.tracksCreateGet);
+tracksRouter.post("/create", tracksController.tracksCreatePost);
+tracksRouter.get("/create", tracksController.tracksCreateGet);
 
 tracksRouter.get("/:id", tracksController.trackDetailGet);
 
