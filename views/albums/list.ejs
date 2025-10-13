@@ -1,0 +1,12 @@
+<h1>Albums</h1>
+<a href="/albums/create">Add new album</a>
+
+<ul>
+  <% albums.forEach(a => { %>
+    <li>
+      <strong><%= a.title %></strong>
+      (<%= a.release_year || 'Unknown year' %>)
+      <!-- — <%= a.artist_name || 'Various Artists' %> -->
+    </li>
+  <% }) %>
+</ul>

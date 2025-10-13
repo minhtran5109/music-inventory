@@ -5,6 +5,7 @@ const path = require("path");
 const indexRouter = require("./routes/indexRouter");
 const tracksRouter = require("./routes/tracksRouter");
 const artistsRouter = require("./routes/artistsRouter");
+const albumsRouter = require("./routes/albumsRouter");
 
 const app = express();
 
@@ -16,6 +17,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/", indexRouter);
 app.use("/tracks", tracksRouter);
 app.use("/artists", artistsRouter);
+app.use("/albums", albumsRouter);
+
+// Error handling middleware
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

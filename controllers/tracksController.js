@@ -26,8 +26,8 @@ async function trackDetailGet (req, res) {
 
 async function tracksCreateGet (req, res) {
   const artists = await db.getAllArtists();
-  const albums = [];
-  // const albums = await db.getAllAlbums();
+  // const albums = [];
+  const albums = await db.getAllAlbums();
   res.render("tracks/form", { 
     title: "Add Track", 
     artists: artists, 

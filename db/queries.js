@@ -65,6 +65,20 @@ async function getArtistsByTrack(trackId) {
   return rows;
 }
 
+async function getAllAlbums() {
+  const { rows } = await pool.query('SELECT * FROM albums');
+  return rows;
+}
+
+async function insertAlbum(title, release_year) {
+  const { rows } = await pool.query(`
+    INSERT INTO albums (title, release_year)
+    VALUES ($1, $2)
+    RETURNING *
+  `, [title, release_year || null]);
+  return rows[0];
+}
+
 module.exports = {
   getAllTracks,
   getTrackById,
@@ -75,5 +89,7 @@ module.exports = {
   getAllArtists,
   getArtistById,
   insertArtist,
-  getArtistsByTrack
+  getArtistsByTrack,
+  getAllAlbums,
+  insertAlbum
 };

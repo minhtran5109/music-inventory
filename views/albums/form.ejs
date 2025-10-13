@@ -1,0 +1,12 @@
+<h1>Add New Album</h1>
+
+<form action="/albums/create" method="POST">
+  <label>Title:</label>
+  <input type="text" name="title" required>
+
+  <label>Release Year:</label>
+  <input type="number" name="release_year">
+
+  <button type="submit">Create Album</button>
+</form>
+<p><a href="/albums">Back to Album List</a></p>
