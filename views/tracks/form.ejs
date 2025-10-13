@@ -14,12 +14,22 @@
     <% }) %>
   </select><br>
 
-  <label>Artist:</label>
-  <select name="artist_id" required>
-    <% artists.forEach(a => { %>
-      <option value="<%= a.artist_id %>"><%= a.name %></option>
+  <label>Artist(s):</label>
+  <fieldset>
+    <% artists.forEach(artist => { %>
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            name="artist_ids"
+            value="<%= artist.artist_id %>"
+          />
+          <%= artist.name %>
+        </label>
+      </div>
     <% }) %>
-  </select><br>
+  </fieldset>
+  <br>
 
   <button type="submit">Add Track</button>
 </form>

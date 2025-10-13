@@ -52,9 +52,12 @@ const tracksCreatePost = [ validateTrack, async (req, res) => {
     });
   }
   console.log("Track to be saved: ", req.body);
-  const { title, duration, album_id, artist_id } = req.body;
+  const { title, duration, album_id, artist_ids } = req.body;
   const newTrack = await db.insertTrack(title, duration, album_id);
-  await db.insertTrackArtist(newTrack.track_id, artist_id);
+  const artistArray = Array.isArray(artist_ids) ? artist_ids : [artist_ids];
+  for (const artist_id of artistArray){
+    await db.insertTrackArtist(newTrack.track_id, artist_id);
+  }
   // Redirect to the new track's detail page
   res.redirect(`/tracks/${newTrack.track_id}`);
 }];
