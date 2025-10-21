@@ -36,6 +36,20 @@ async function insertTrackArtist(track_id, artist_id) {
   await pool.query('INSERT INTO track_artists (track_id, artist_id) VALUES ($1, $2)', [track_id, artist_id]);
 }
 
+async function deleteTrackArtist(track_id) {
+  await pool.query('DELETE FROM track_artists WHERE track_id = $1', [track_id]);
+}
+
+async function updateTrack(title, duration, album_id, track_id) {
+  const { rows } = await pool.query(`
+    UPDATE tracks
+    SET title = $1, duration = $2, album_id = $3
+    WHERE track_id = $4
+    RETURNING *
+  `, [title, duration, album_id || null, track_id]);
+  return rows[0];
+}
+
 async function searchTrack(search) {
   const { rows } = await pool.query('SELECT * FROM tracks WHERE title ILIKE $1', [`%${search}%`]);
   return rows;
@@ -84,6 +98,8 @@ module.exports = {
   getTrackById,
   insertTrack,
   insertTrackArtist,
+  deleteTrackArtist,
+  updateTrack,
   searchTrack,
   getAllTracksArtists,
   getAllArtists,

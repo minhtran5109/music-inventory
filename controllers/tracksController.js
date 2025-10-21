@@ -38,9 +38,17 @@ async function tracksCreateGet (req, res) {
 const notEmptyErr = "must be specified.";
 
 const validateTrack = [
-  body("title").trim()
-    .notEmpty().withMessage(`Title ${notEmptyErr}`),
-  // body("artist_ids").isArray().withMessage(`At least one artist ${notEmptyErr}`),
+  body("title")
+    .trim()
+    .notEmpty()
+    .withMessage(`Title ${notEmptyErr}`),
+  body("artist_ids")
+    .customSanitizer(value => {
+      if (!value) return [];
+      return Array.isArray(value) ? value : [value];
+    })
+    .isArray({ min: 1 })  
+    .withMessage(`At least one artist ${notEmptyErr}`),
 ];
 
 const tracksCreatePost = [ validateTrack, async (req, res) => {
@@ -51,7 +59,7 @@ const tracksCreatePost = [ validateTrack, async (req, res) => {
       errors: errors.array(),
     });
   }
-  console.log("Track to be saved: ", req.body);
+  // console.log("Track to be saved: ", req.body);s
   const { title, duration, album_id, artist_ids } = req.body;
   const newTrack = await db.insertTrack(title, duration, album_id);
   const artistArray = Array.isArray(artist_ids) ? artist_ids : [artist_ids];
@@ -62,9 +70,68 @@ const tracksCreatePost = [ validateTrack, async (req, res) => {
   res.redirect(`/tracks/${newTrack.track_id}`);
 }];
 
+async function tracksUpdateGet (req, res) {
+  const id  = req.params.id;
+  const track = await db.getTrackById(id);
+  if (!track) {
+    return res.status(404).send("Track not found");
+  }
+  const artists = await db.getAllArtists();
+  const albums = await db.getAllAlbums();
+  const trackArtists = await db.getArtistsByTrack(id);
+  const trackArtistIds = trackArtists.map(artist => artist.artist_id);
+  
+  res.render("tracks/edit", {
+    track: track,
+    albums: albums,
+    artists: artists,
+    trackArtistIds: trackArtistIds,
+  });
+}
+
+const tracksUpdatePost = [ validateTrack, async (req, res) => {
+  const id  = req.params.id;
+  const track = await db.getTrackById(id);
+  const artists = await db.getAllArtists();
+  const albums = await db.getAllAlbums();
+  const trackArtists = await db.getArtistsByTrack(id);
+  const trackArtistIds = trackArtists.map(artist => artist.artist_id);
+  if (!track) {
+    return res.status(404).send("Track not found");
+  }
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).render("tracks/edit", {
+      track: track,
+      albums: albums,
+      artists: artists,
+      trackArtistIds: trackArtistIds,
+      errors: errors.array(),
+    });
+  }
+
+  const { title, duration, album_id, artist_ids } = req.body;
+
+  //Update track info
+  await db.updateTrack(title, duration, album_id, id);
+
+  //Reset track artists
+  await db.deleteTrackArtist(id);
+  const artistArray = Array.isArray(artist_ids) ? artist_ids : [artist_ids];
+  for (const artist_id of artistArray){
+    await db.insertTrackArtist(id, artist_id);
+  }
+
+  // Redirect to the updated track's detail page
+  res.redirect(`/tracks/${id}`);
+}]
+
+
 module.exports = {
   tracksListGet,
   trackDetailGet,
   tracksCreateGet,
   tracksCreatePost,
+  tracksUpdateGet,
+  tracksUpdatePost,
 };

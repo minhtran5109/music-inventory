@@ -10,5 +10,7 @@ tracksRouter.get("/create", tracksController.tracksCreateGet);
 
 tracksRouter.get("/:id", tracksController.trackDetailGet);
 
+tracksRouter.get("/:id/update", tracksController.tracksUpdateGet);
+tracksRouter.post("/:id/update", tracksController.tracksUpdatePost);
 
 module.exports = tracksRouter;

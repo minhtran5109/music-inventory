@@ -14,6 +14,7 @@
           <% if (track.artists) { %>
             — <small><%= track.artists %></small>
           <% } %>
+          <a href="/tracks/<%= track.track_id %>/update">Edit</a>
         </li>
       <% }) %>
     </ul>

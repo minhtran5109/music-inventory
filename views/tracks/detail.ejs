@@ -3,7 +3,7 @@
 <head><title><%= title %></title></head>
 <body>
   <h1><%= track.title %></h1>
-
+  <a href="/tracks/<%= track.track_id %>/update">Edit</a>
   <p><strong>ID:</strong> <%= track.track_id %></p>
 
   <% if (artists.length > 0) { %>
