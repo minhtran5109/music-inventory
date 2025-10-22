@@ -33,9 +33,30 @@ async function artistsCreatePost (req, res) {
   res.redirect(`/artists/${newArtistId}`);
 }
 
+async function artistUpdateGet (req, res) {
+  const id = req.params.id;
+  const artist = await db.getArtistById(id);
+  if (!artist) {
+    return res.status(404).send("Artist not found");
+  }
+  res.render("artists/edit", {
+    title: "Update Artist",
+    artist: artist
+  });
+}
+
+async function artistUpdatePost (req, res) {
+  const id = req.params.id;
+  const { name, country } = req.body;
+  await db.updateArtist(name, country, id);
+  res.redirect(`/artists/${id}`);
+}
+
 module.exports = {
   artistsListGet,
   artistDetailGet,
   artistsCreateGet,
   artistsCreatePost,
+  artistUpdateGet,
+  artistUpdatePost
 };

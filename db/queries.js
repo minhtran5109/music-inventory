@@ -79,6 +79,16 @@ async function getArtistsByTrack(trackId) {
   return rows;
 }
 
+async function updateArtist(name, country, id) {
+  const { rows } = await pool.query(`
+    UPDATE artists
+    SET name = $1, country = $2
+    WHERE artist_id = $3
+    RETURNING *
+  `, [name, country, id]);
+  return rows[0];
+}
+
 async function getAllAlbums() {
   const { rows } = await pool.query('SELECT * FROM albums');
   return rows;
@@ -106,6 +116,7 @@ module.exports = {
   getArtistById,
   insertArtist,
   getArtistsByTrack,
+  updateArtist,
   getAllAlbums,
   insertAlbum
 };
