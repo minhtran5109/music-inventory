@@ -103,6 +103,21 @@ async function insertAlbum(title, release_year) {
   return rows[0];
 }
 
+async function getAlbumById(id) {
+  const { rows } = await pool.query('SELECT * FROM albums WHERE album_id = $1', [id]);
+  return rows[0];
+}
+
+async function updateAlbum( title, release_year, id) {
+  const { rows } = await pool.query(`
+    UPDATE albums
+    SET title = $1, release_year = $2
+    WHERE album_id = $3
+    RETURNING *
+  `, [title, release_year || null, id]);
+  return rows[0];
+}
+
 module.exports = {
   getAllTracks,
   getTrackById,
@@ -118,5 +133,7 @@ module.exports = {
   getArtistsByTrack,
   updateArtist,
   getAllAlbums,
-  insertAlbum
+  insertAlbum,
+  getAlbumById,
+  updateAlbum,
 };

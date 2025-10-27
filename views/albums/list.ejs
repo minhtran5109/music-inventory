@@ -7,6 +7,7 @@
       <strong><%= a.title %></strong>
       (<%= a.release_year || 'Unknown year' %>)
       <!-- — <%= a.artist_name || 'Various Artists' %> -->
+       - <a href="/albums/<%= a.album_id %>/update">Edit</a>
     </li>
   <% }) %>
 </ul>

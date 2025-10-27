@@ -17,8 +17,26 @@ async function albumsCreatePost(req, res) {
   res.redirect(`/albums/`);
 }
 
+async function albumUpdateGet(req, res) {
+  const { albumId } = req.params;
+  const album = await db.getAlbumById(albumId);
+  if (!album) {
+    return res.status(404).send("Album not found");
+  }
+  res.render("albums/edit", { album });
+}
+
+async function albumUpdatePost(req, res) {
+  const { albumId } = req.params;
+  const { title, release_year } = req.body;
+  await db.updateAlbum(title, release_year, albumId);
+  res.redirect(`/albums/`);
+}
+
 module.exports = {
   albumsListGet,
   albumsCreateGet,
   albumsCreatePost,
+  albumUpdateGet,
+  albumUpdatePost,
 };

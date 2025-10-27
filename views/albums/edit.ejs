@@ -1,0 +1,12 @@
+<h1>Edit Album</h1>
+
+<form action="/albums/<%= album.album_id %>/update" method="POST">
+  <label>Title:</label>
+  <input type="text" name="title" value="<%= album.title %>" required>
+
+  <label>Release Year:</label>
+  <input type="number" name="release_year" value="<%= album.release_year %>">
+
+  <button type="submit">Update Album</button>
+</form>
+<p><a href="/albums">Back to Album List</a></p>
