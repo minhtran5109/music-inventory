@@ -126,6 +126,28 @@ const tracksUpdatePost = [ validateTrack, async (req, res) => {
   res.redirect(`/tracks/${id}`);
 }]
 
+async function tracksDeleteGet (req, res) {
+  const id  = req.params.id;
+  const track = await db.getTrackById(id);
+  if (!track) {
+    return res.status(404).send("Track not found");
+  }
+  res.render("tracks/delete", {
+    title: "Delete Track",
+    track: track,
+  });
+}
+
+async function tracksDeletePost (req, res) {
+  const id  = req.params.id;
+  const track = await db.getTrackById(id);
+  if (!track) {
+    return res.status(404).send("Track not found");
+  }
+  await db.deleteTrack(id);
+  // Redirect to the tracks list page
+  res.redirect("/tracks");
+}
 
 module.exports = {
   tracksListGet,
@@ -134,4 +156,6 @@ module.exports = {
   tracksCreatePost,
   tracksUpdateGet,
   tracksUpdatePost,
+  tracksDeleteGet,
+  tracksDeletePost,
 };

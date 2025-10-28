@@ -13,4 +13,7 @@ tracksRouter.get("/:id", tracksController.trackDetailGet);
 tracksRouter.get("/:id/update", tracksController.tracksUpdateGet);
 tracksRouter.post("/:id/update", tracksController.tracksUpdatePost);
 
+tracksRouter.get("/:id/delete", tracksController.tracksDeleteGet);
+tracksRouter.post("/:id/delete", tracksController.tracksDeletePost);
+
 module.exports = tracksRouter;

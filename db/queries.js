@@ -55,6 +55,10 @@ async function searchTrack(search) {
   return rows;
 }
 
+async function deleteTrack(track_id) {
+  await pool.query('DELETE FROM tracks WHERE track_id = $1', [track_id]);
+}
+
 async function getAllArtists() {
   const { rows } = await pool.query('SELECT * FROM artists');
   return rows;
@@ -126,6 +130,7 @@ module.exports = {
   deleteTrackArtist,
   updateTrack,
   searchTrack,
+  deleteTrack,
   getAllTracksArtists,
   getAllArtists,
   getArtistById,

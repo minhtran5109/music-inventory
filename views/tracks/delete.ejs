@@ -1,0 +1,12 @@
+<h1><%= title %></h1>
+
+<p>Are you sure you want to delete this track?</p>
+
+<p>
+  <strong>Title:</strong> <%= track.title %><br>
+</p>
+
+<form action="/tracks/<%= track.track_id %>/delete" method="POST">
+  <button type="submit">Yes, delete</button>
+  <a href="/tracks/<%= track.track_id %>">Cancel</a>
+</form>
